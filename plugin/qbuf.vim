@@ -118,7 +118,7 @@ function s:init(onStart)
 		let s:cursel = match(s:buflist, '^\d*\*')
 		call s:setcmdh(s:blen+1)
 	else
-		call s:setcmdh(s:cmdh)
+		call s:setcmdh(1)
 		for l:key in s:klist
 			exe "cunmap ".l:key
 		endfor
