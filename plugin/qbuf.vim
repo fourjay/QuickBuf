@@ -21,6 +21,11 @@ let s:action2cmd = {"z": 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf
 			\"l": "let s:unlisted = 1 - s:unlisted",
 			\"c": 'call <SID>closewindow(#,"")'}
 
+function s:buflistCompare(a, b)
+    "echo a:a a:b "--" a:a[match(a:a, ' [^ ]'):] "--" a:b[match(a:b, ' [^ ]'):]
+    return a:a[match(a:a, ' [^ ]'):] < a:b[match(a:b, ' [^ ]'):]
+endfunc
+
 function s:rebuild()
 	redir @y | silent ls! | redir END
 	let s:buflist = []
@@ -46,12 +51,24 @@ function s:rebuild()
 				let l:active = '  '
 			endif
 
-			call add(s:buflist, s:blen . l:active
+			call add(s:buflist, l:active
 				\.fnamemodify(l:fname,":t") . l:moreinfo
 				\." <" . l:bufnum . "> "
 				\.fnamemodify(l:fname,":h"))
 		endif
 	endfor
+
+    " Sort buffers if requested
+    if exists("g:qb_sort_buffers") && g:qb_sort_buffers
+        call sort(s:buflist, "s:buflistCompare")
+    endif
+
+    " Add buffer list numbers only after possible sort
+    let l:buford = 1
+    while l:buford <= s:blen
+        let s:buflist[l:buford-1] = l:buford . s:buflist[l:buford-1]
+        let l:buford = l:buford + 1
+    endwhile
 
 	let l:alignsize = max(map(copy(s:buflist),'stridx(v:val,">")'))
 	call map(s:buflist, 'substitute(v:val, " <", repeat(" ",l:alignsize-stridx(v:val,">"))." <", "")')
