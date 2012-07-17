@@ -79,7 +79,16 @@ function SBRun()
 	if s:unlisted
 		echoh WarningMsg
 	endif
+	" Fix input not receiving commands if paste is on
+	let l:pasteon = 0
+	if &paste
+		let l:pasteon = 1
+		set nopaste
+	endif
 	let l:pkey = input(s:unlisted ? "UNLISTED ([+] loaded):" : "LISTED ([+] modified):" , " ")
+	if l:pasteon
+		set paste
+	endif
 	if s:unlisted
 		echoh None
 	endif
