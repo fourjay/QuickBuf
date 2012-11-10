@@ -2,6 +2,11 @@ if v:version < 700
 	finish
 endif
 
+if exists('g:loaded_qb')
+    finish
+endif
+let g:loaded_qb = 1
+
 if !exists("g:qb_hotkey") || g:qb_hotkey == ""
 	let g:qb_hotkey = "<F4>"
 endif
