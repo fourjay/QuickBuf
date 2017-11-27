@@ -2,33 +2,33 @@ if v:version < 700
     finish
 endif
 
-if !exists("g:qb_hotkey") || g:qb_hotkey == ""
-    let g:qb_hotkey = "<F4>"
+if !exists('g:qb_hotkey') || g:qb_hotkey ==# ''
+    let g:qb_hotkey = '<F4>'
 endif
-exe "nnoremap <unique>" g:qb_hotkey " :cal <SID>init(1)<cr>:cal SBRun()<cr>"
-exe "cnoremap <unique>" g:qb_hotkey "<Esc>"
+exe 'nnoremap <unique>' g:qb_hotkey " :cal <SID>init(1)<cr>:cal SBRun()<cr>"
+exe 'cnoremap <unique>' g:qb_hotkey "<Esc>"
 
-if exists("g:qb_loaded") && g:qb_loaded
+if exists('g:qb_loaded') && g:qb_loaded
     finish
 endif
 let g:qb_loaded = 1
 
-let s:action2cmd = {"z": 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
-            \"u": "hid b #|let s:cursel = (s:cursel+1) % s:blen",
-            \"s": "sb #",
-            \"d": 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
-            \"w": "bw #", "!w": "bw! #",
-            \"l": "let s:unlisted = 1 - s:unlisted",
-            \"c": 'call <SID>closewindow(#,"")'}
+let s:action2cmd = { 'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
+            \ 'u': "hid b #|let s:cursel = (s:cursel+1) % s:blen",
+            \ 's': "sb #",
+            \ 'd': 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
+            \ 'w': "bw #", "!w": "bw! #",
+            \ 'l': "let s:unlisted = 1 - s:unlisted",
+            \ 'c': 'call <SID>closewindow(#,"")'}
 
-function s:rebuild()
+function! s:rebuild()
     redir @y | silent ls! | redir END
     let s:buflist = []
     let s:blen = 0
 
     for l:theline in split(@y,"\n")
-        if s:unlisted && l:theline[3] == "u" && (l:theline[6] != "-" || l:theline[5] != " ")
-                    \ || !s:unlisted && l:theline[3] != "u"
+        if s:unlisted && l:theline[3] ==# 'u' && (l:theline[6] != '-' || l:theline[5] !=# ' ')
+                    \ || !s:unlisted && l:theline[3] !=# 'u'
             if s:unlisted
                 let l:moreinfo = substitute(l:theline[5], "[ah]", " [+]", "")
             else
@@ -58,8 +58,8 @@ function s:rebuild()
     call map(s:buflist, 'strpart(v:val, 0, &columns-3)')
 endfunc
 
-function SBRun()
-    if !exists("s:cursel") || (s:cursel >= s:blen) || (s:cursel < 0)
+function! SBRun()
+    if !exists('s:cursel') || (s:cursel >= s:blen) || (s:cursel < 0)
         let s:cursel = s:blen-1
     endif
 
@@ -85,16 +85,16 @@ function SBRun()
         let l:pasteon = 1
         set nopaste
     endif
-    let l:pkey = input(s:unlisted ? "UNLISTED ([+] loaded):" : "LISTED ([+] modified):" , " ")
+    let l:pkey = input(s:unlisted ? 'UNLISTED ([+] loaded):' : 'LISTED ([+] modified):' , ' ')
     if l:pasteon
         set paste
     endif
     if s:unlisted
         echoh None
     endif
-    if l:pkey =~ "j$"
+    if l:pkey =~ 'j$'
         let s:cursel = (s:cursel+1) % s:blen
-    elseif l:pkey =~ "k$"
+    elseif l:pkey =~ 'k$'
         if s:cursel == 0
             let s:cursel = s:blen - 1
         else
@@ -107,7 +107,7 @@ function SBRun()
     call s:setcmdh(s:blen+1)
 endfunc
 
-function s:init(onStart)
+function! s:init(onStart)
     if a:onStart
         set nolazyredraw
         let s:unlisted = 1 - getbufvar("%", "&buflisted")
@@ -116,7 +116,7 @@ function s:init(onStart)
         let s:cmdh = &cmdheight
         hi Cursor guibg=NONE guifg=NONE
 
-        let s:klist = ["j", "k", "u", "d", "w", "l", "s", "c"]
+        let s:klist = ['j', 'k', 'u', 'd', 'w', 'l', 's', 'c']
         for l:key in s:klist
             exe "cnoremap ".l:key." ".l:key."<cr>:cal SBRun()<cr>"
         endfor
@@ -138,7 +138,7 @@ function s:init(onStart)
 endfunc
 
 " return true to indicate termination
-function s:update_buf(cmd)
+function! s:update_buf(cmd)
     if a:cmd != "" && a:cmd =~ '^ *\d*!\?\a\?$'
         let l:bufidx = str2nr(a:cmd) - 1
         if l:bufidx == -1
@@ -167,7 +167,7 @@ function s:update_buf(cmd)
     return index(s:klist, a:cmd[-1:]) == -1
 endfunc
 
-function s:setcmdh(height)
+function! s:setcmdh(height)
     if a:height > &lines - winnr('$') * (&winminheight+1) - 1
         call s:init(0)
         echo "\r"|echoerr "QBuf E1: No room to display buffer list"
@@ -176,7 +176,7 @@ function s:setcmdh(height)
     endif
 endfunc
 
-function s:switchbuf(bno, mod)
+function! s:switchbuf(bno, mod)
     if bufwinnr(a:bno) == -1
         exe "b".a:mod a:bno
     else
@@ -184,7 +184,7 @@ function s:switchbuf(bno, mod)
     endif
 endfunc
 
-function s:qbufdcmd(bno, mod)
+function! s:qbufdcmd(bno, mod)
     if s:unlisted
         call setbufvar(a:bno, "&buflisted", 1)
     else
@@ -192,7 +192,7 @@ function s:qbufdcmd(bno, mod)
     endif
 endfunc
 
-function s:closewindow(bno, mod)
+function! s:closewindow(bno, mod)
     if bufwinnr(a:bno) != -1
         exe bufwinnr(a:bno) . "winc w|close" . a:mod
     endif
