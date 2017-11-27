@@ -1,0 +1,19 @@
+*vim-quickbuf* Command line buffer manager                   *vim-quickbuf.txt*
+
+Vim QuickBuffer
+
+==============================================================================
+CONTENTS                                           *vim-quickbuf-contents*
+
+   1. INTRODUCTION                                      |vim-quickbuf-intro|
+   2. COMMANDS                                       |vim-quickbuf-commands|
+   2. CONFIGURATION                             |vim-quickbuf-configuration|
+
+==============================================================================
+1. INTRODUCTION                                           *vim-quickbuf-intro*
+
+==============================================================================
+2. COMMANDS                                            *vim-quickbuf-commands*
+
+==============================================================================
+3. CONFIGURATION                                  *vim-quickbuf-configuration*
