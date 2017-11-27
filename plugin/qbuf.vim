@@ -49,9 +49,9 @@ function! s:rebuild()
             endif
 
             call add(s:buflist, s:blen . l:active
-                        \.fnamemodify(l:fname,":t") . l:moreinfo
-                        \." <" . l:bufnum . "> "
-                        \.fnamemodify(l:fname,":h"))
+                        \ .fnamemodify(l:fname, ':t') . l:moreinfo
+                        \ .' <' . l:bufnum . '> '
+                        \ .fnamemodify( l:fname, ':h'))
         endif
     endfor
 
@@ -66,15 +66,15 @@ function! SBRun()
     endif
 
     if s:blen < 1
-        echoh WarningMsg | echo "No" s:unlisted ? "unlisted" : "listed" "buffer!" | echoh None
+        echoh WarningMsg | echo 'No' s:unlisted ? 'unlisted' : 'listed' 'buffer!' | echoh None
         call s:init(0)
         return
     endif
     for l:idx in range(s:blen)
         if l:idx != s:cursel
-            echo "  " . s:buflist[l:idx]
+            echo '  ' . s:buflist[l:idx]
         else
-            echoh DiffText | echo "> " . s:buflist[l:idx] | echoh None
+            echoh DiffText | echo '> ' . s:buflist[l:idx] | echoh None
         endif
     endfor
 
@@ -94,9 +94,9 @@ function! SBRun()
     if s:unlisted
         echoh None
     endif
-    if l:pkey =~ 'j$'
+    if l:pkey =~# 'j$'
         let s:cursel = (s:cursel+1) % s:blen
-    elseif l:pkey =~ 'k$'
+    elseif l:pkey =~# 'k$'
         if s:cursel == 0
             let s:cursel = s:blen - 1
         else
