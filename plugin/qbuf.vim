@@ -4,7 +4,7 @@ endif
 
 nnoremap <Plug>quickbuf :call <SID>init(1)<cr>:cal SBRun()<cr>
 
-if mapcheck('<F4>') !=# ''
+if mapcheck('<F4>') ==# ''
     nmap <F4> <Plug>quickbuf
 endif
 
@@ -19,7 +19,9 @@ let s:action2cmd = { 'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbu
             \ 'd': 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
             \ 'w': 'bw #', '!w': 'bw! #',
             \ 'l': 'let s:unlisted = 1 - s:unlisted',
-            \ 'c': 'call <SID>closewindow(#,"")'}
+            \ 'c': 'call <SID>closewindow(#,"")',
+            \ 'q': 'call <SID>closewindow(#,"")'
+            \ }
 
 function! s:rebuild()
     redir @y | silent ls! | redir END
