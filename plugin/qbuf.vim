@@ -133,7 +133,7 @@ function s:init(onStart)
 		endfor
 		cunmap <up>
 		cunmap <down>
-		exe "hi Cursor guibg=" . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
+		" exe "hi Cursor guibg=" . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
 	endif
 endfunc
 
