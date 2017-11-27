@@ -13,14 +13,14 @@ if exists('g:qb_loaded') && g:qb_loaded
 endif
 let g:qb_loaded = 1
 
-let s:action2cmd = { 'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
-            \ 'u': 'hid b #|let s:cursel = (s:cursel+1) % s:blen',
-            \ 's': 'sb #',
-            \ 'd': 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
-            \ 'w': 'bw #', '!w': 'bw! #',
-            \ 'l': 'let s:unlisted = 1 - s:unlisted',
-            \ 'c': 'call <SID>closewindow(#,"")',
-            \ 'q': 'call <SID>closewindow(#,"")'
+let s:action2cmd = { 
+            \   'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
+            \   'u': 'hid b #|let s:cursel = (s:cursel+1) % s:blen',
+            \   's': 'sb #',
+            \   'd': 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
+            \   'w': 'bw #', '!w': 'bw! #',
+            \   'l': 'let s:unlisted = 1 - s:unlisted',
+            \   'c': 'call <SID>closewindow(#,"")',
             \ }
 
 function! s:rebuild()
@@ -148,19 +148,19 @@ function! s:update_buf(cmd)
         endif
 
         let l:action = matchstr(a:cmd, '!\?\a\?$')
-        if l:action == "" || l:action == "!"
-            let l:action .= "z"
+        if l:action ==# '' || l:action ==# '!'
+            let l:action .= 'z'
         endif
 
         if l:bufidx >= 0 && l:bufidx < s:blen && has_key(s:action2cmd, l:action)
             try
-                execute substitute(s:action2cmd[l:action], "#", matchstr(s:buflist[l:bufidx], '<\zs\d\+\ze>'), "g")
-                if l:action[-1:] != "z"
+                execute substitute(s:action2cmd[l:action], '#', matchstr(s:buflist[l:bufidx], '<\zs\d\+\ze>'), 'g')
+                if l:action[-1:] !=# 'z'
                     call s:rebuild()
                 endif
             catch
                 echoh ErrorMsg | echo "\rVIM" matchstr(v:exception, '^Vim(\a*):\zs.*') | echoh None
-                if l:action[-1:] != "z"
+                if l:action[-1:] != 'z'
                     call inputsave() | call getchar() | call inputrestore()
                 endif
             endtry
@@ -174,7 +174,7 @@ function! s:setcmdh(height)
         call s:init(0)
         echo "\r"|echoerr 'QBuf E1: No room to display buffer list'
     else
-        execute "set cmdheight=".a:height
+        execute 'set cmdheight='.a:height
     endif
 endfunc
 
