@@ -2,11 +2,11 @@ if v:version < 700
     finish
 endif
 
-if !exists('g:qb_hotkey') || g:qb_hotkey ==# ''
-    let g:qb_hotkey = '<F4>'
+nnoremap <Plug>quickbuf :call <SID>init(1)<cr>:cal SBRun()<cr>
+
+if mapcheck('<F4>') !=# ''
+    nmap <F4> <Plug>quickbuf
 endif
-execute 'nnoremap <unique>' g:qb_hotkey ' :cal <SID>init(1)<cr>:cal SBRun()<cr>'
-execute 'cnoremap <unique>' g:qb_hotkey '<Esc>'
 
 if exists('g:qb_loaded') && g:qb_loaded
     finish
