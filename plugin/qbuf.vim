@@ -112,15 +112,15 @@ endfunc
 function! s:init(onStart)
     if a:onStart
         set nolazyredraw
-        let s:unlisted = 1 - getbufvar("%", "&buflisted")
-        let s:cursorbg = synIDattr(hlID("Cursor"),"bg")
-        let s:cursorfg = synIDattr(hlID("Cursor"),"fg")
+        let s:unlisted = 1 - getbufvar('%', '&buflisted')
+        let s:cursorbg = synIDattr(hlID('Cursor'),'bg')
+        let s:cursorfg = synIDattr(hlID('Cursor'),'fg')
         let s:cmdh = &cmdheight
         hi Cursor guibg=NONE guifg=NONE
 
         let s:klist = ['j', 'k', 'u', 'd', 'w', 'l', 's', 'c']
         for l:key in s:klist
-            execute "cnoremap ".l:key." ".l:key."<cr>:cal SBRun()<cr>"
+            execute 'cnoremap ' . l:key . ' ' . l:key . '<cr>:cal SBRun()<cr>'
         endfor
         cmap <up> k
         cmap <down> j
@@ -131,11 +131,11 @@ function! s:init(onStart)
     else
         call s:setcmdh(1)
         for l:key in s:klist
-            execute "cunmap ".l:key
+            execute 'cunmap '.l:key
         endfor
         cunmap <up>
         cunmap <down>
-        " execute "hi Cursor guibg=" . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
+        " execute 'hi Cursor guibg=' . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
     endif
 endfunc
 
