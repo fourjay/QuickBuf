@@ -32,9 +32,9 @@ function! s:rebuild()
         if s:unlisted && l:theline[3] ==# 'u' && (l:theline[6] !=# '-' || l:theline[5] !=# ' ')
                     \ || !s:unlisted && l:theline[3] !=# 'u'
             if s:unlisted
-                let l:moreinfo = substitute(l:theline[5], "[ah]", " [+]", "")
+                let l:moreinfo = substitute(l:theline[5], '[ah]', ' [+]', '')
             else
-                let l:moreinfo = substitute(l:theline[7], "+", " [+]", "")
+                let l:moreinfo = substitute(l:theline[7], '+', ' [+]', '')
             endif
             let s:blen += 1
             let l:fname = matchstr(l:theline, '"\zs[^"]*')
