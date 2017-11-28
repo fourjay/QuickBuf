@@ -11,7 +11,7 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 nnoremap <Plug>quickbuf :call quickbuf#run()<cr>
-command! Ls :call quickbuf#run()
+command! Ls call quickbuf#run()
 
 if mapcheck('<F4>') ==# ''
     nmap <F4> <Plug>quickbuf
