@@ -52,8 +52,8 @@ function! s:rebuild() abort
         endif
     endfor
 
-    let l:alignsize = max(map(copy(s:buflist),'stridx(v:val,">")'))
-    call map(s:buflist, 'substitute(v:val, " <", repeat(" ",l:alignsize-stridx(v:val,">"))." <", "")')
+    let l:alignsize = max(map(copy(s:buflist),'stridx(v:val,'>')'))
+    call map(s:buflist, 'substitute(v:val, ' <', repeat(" ",l:alignsize-stridx(v:val,">"))." <", "")')
     call map(s:buflist, 'strpart(v:val, 0, &columns-3)')
 endfunc
 
@@ -140,7 +140,7 @@ endfunc
 
 " return true to indicate termination
 function! s:update_buf(cmd) abort
-    if a:cmd != "" && a:cmd =~ '^ *\d*!\?\a\?$'
+    if a:cmd !=# '' && a:cmd =~# '^ *\d*!\?\a\?$'
         let l:bufidx = str2nr(a:cmd) - 1
         if l:bufidx == -1
             let l:bufidx = s:cursel
@@ -159,7 +159,7 @@ function! s:update_buf(cmd) abort
                 endif
             catch
                 echoh ErrorMsg | echo "\rVIM" matchstr(v:exception, '^Vim(\a*):\zs.*') | echoh None
-                if l:action[-1:] != 'z'
+                if l:action[-1:] !=# 'z'
                     call inputsave() | call getchar() | call inputrestore()
                 endif
             endtry
