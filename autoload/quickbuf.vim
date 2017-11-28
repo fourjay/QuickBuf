@@ -5,6 +5,11 @@ let g:did_quickbuf = "did_quickbuf"
 let s:save_cpo = &cpoptions
 set compatible&vim
 
+function! quickbuf#run()
+    call quickbuf#init(1)
+    call quickbuf#sbrun()
+endfunction
+
 let s:action2cmd = {
             \   'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
             \   'u': 'hid b #|let s:cursel = (s:cursel+1) % s:blen',
@@ -103,7 +108,6 @@ endfunc
 
 function! quickbuf#init(onStart) " abort
     if a:onStart
-        echom 'onstart'
         set nolazyredraw
         let s:unlisted = 1 - getbufvar('%', '&buflisted')
         let s:cursorbg = synIDattr(hlID('Cursor'),'bg')

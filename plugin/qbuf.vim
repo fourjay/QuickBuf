@@ -10,7 +10,7 @@ let g:qb_loaded = 1
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-nnoremap <Plug>quickbuf :call quickbuf#init(1)<cr>:call quickbuf#sbrun()<cr>
+nnoremap <Plug>quickbuf :call quickbuf#run()<cr>
 
 if mapcheck('<F4>') ==# ''
     nmap <F4> <Plug>quickbuf
