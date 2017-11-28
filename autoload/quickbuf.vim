@@ -106,6 +106,7 @@ function! quickbuf#sbrun() abort
     call s:setcmdh(s:blen+1)
 endfunc
 
+let s:orig_lazyredraw = &lazyredraw
 function! quickbuf#init(onStart) " abort
     if a:onStart
         set nolazyredraw
@@ -133,6 +134,7 @@ function! quickbuf#init(onStart) " abort
         cunmap <up>
         cunmap <down>
         " execute 'hi Cursor guibg=' . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
+        let &lazyredraw = s:orig_lazyredraw
     endif
 endfunc
 
