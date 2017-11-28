@@ -52,8 +52,8 @@ function! s:rebuild() abort
         endif
     endfor
 
-    let l:alignsize = max(map(copy(s:buflist),'stridx(v:val,'>')'))
-    call map(s:buflist, 'substitute(v:val, ' <', repeat(" ",l:alignsize-stridx(v:val,">"))." <", "")')
+    let l:alignsize = max(map(copy(s:buflist),'stridx(v:val,">")'))
+    call map(s:buflist, 'substitute(v:val, " <", repeat(" ",l:alignsize-stridx(v:val,">"))." <", "")')
     call map(s:buflist, 'strpart(v:val, 0, &columns-3)')
 endfunc
 
