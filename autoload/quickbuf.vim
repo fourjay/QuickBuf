@@ -21,11 +21,11 @@ let s:action2cmd = {
             \ }
 
 function! s:rebuild() abort
-    redir @y | silent ls! | redir END
+    redir => l:ls_result | silent ls! | redir END
     let s:buflist = []
     let s:blen = 0
 
-    for l:theline in split(@y,"\n")
+    for l:theline in split(l:ls_result,"\n")
         if s:unlisted && l:theline[3] ==# 'u' && (l:theline[6] !=# '-' || l:theline[5] !=# ' ')
                     \ || !s:unlisted && l:theline[3] !=# 'u'
             if s:unlisted
