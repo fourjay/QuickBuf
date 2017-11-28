@@ -27,7 +27,7 @@ let s:action2cmd = {
             \   'c': 'call <SID>closewindow(#,"")',
             \ }
 
-function! s:rebuild()
+function! s:rebuild() abort
     redir @y | silent ls! | redir END
     let s:buflist = []
     let s:blen = 0
@@ -64,7 +64,7 @@ function! s:rebuild()
     call map(s:buflist, 'strpart(v:val, 0, &columns-3)')
 endfunc
 
-function! SBRun()
+function! SBRun() abort
     if !exists('s:cursel') || (s:cursel >= s:blen) || (s:cursel < 0)
         let s:cursel = s:blen-1
     endif
@@ -113,7 +113,7 @@ function! SBRun()
     call s:setcmdh(s:blen+1)
 endfunc
 
-function! s:init(onStart)
+function! s:init(onStart) abort
     if a:onStart
         set nolazyredraw
         let s:unlisted = 1 - getbufvar('%', '&buflisted')
@@ -144,7 +144,7 @@ function! s:init(onStart)
 endfunc
 
 " return true to indicate termination
-function! s:update_buf(cmd)
+function! s:update_buf(cmd) abort
     if a:cmd != "" && a:cmd =~ '^ *\d*!\?\a\?$'
         let l:bufidx = str2nr(a:cmd) - 1
         if l:bufidx == -1
@@ -173,7 +173,7 @@ function! s:update_buf(cmd)
     return index(s:klist, a:cmd[-1:]) == -1
 endfunc
 
-function! s:setcmdh(height)
+function! s:setcmdh(height) abort
     if a:height > &lines - winnr('$') * (&winminheight+1) - 1
         call s:init(0)
         echo "\r"|echoerr 'QBuf E1: No room to display buffer list'
@@ -182,7 +182,7 @@ function! s:setcmdh(height)
     endif
 endfunc
 
-function! s:switchbuf(bno, mod)
+function! s:switchbuf(bno, mod) abort
     if bufwinnr(a:bno) == -1
         execute 'b'.a:mod a:bno
     else
@@ -190,7 +190,7 @@ function! s:switchbuf(bno, mod)
     endif
 endfunc
 
-function! s:qbufdcmd(bno, mod)
+function! s:qbufdcmd(bno, mod) abort
     if s:unlisted
         call setbufvar(a:bno, '&buflisted', 1)
     else
@@ -198,7 +198,7 @@ function! s:qbufdcmd(bno, mod)
     endif
 endfunc
 
-function! s:closewindow(bno, mod)
+function! s:closewindow(bno, mod) abort
     if bufwinnr(a:bno) != -1
         execute bufwinnr(a:bno) . 'winc w|close' . a:mod
     endif
