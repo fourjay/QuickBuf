@@ -15,9 +15,12 @@ CONTENTS                                           *vim-quickbuf-contents*
 
 This is a fork of  http://www.vim.org/scripts/script.php?script_id=1910
 
+It adds a <Plug>quickbuf mapping and an :Ls command
+
+It also creates the more modern vim plugin structure
+
 QuickBuf
 Vim plugin helps navigate and manipulate buffers
-Maintainer: palnart <palnart@gmail.com>
 
 Brief description: While making the task of browsing and manipulating
 buffers visual and simple, QuickBuf also offers advanced abilities of
@@ -66,3 +69,7 @@ second buffer in the list. Try '3<enter>', '1w', '1!w'
 
 ==============================================================================
 4. NOTES                                                  *vim-quickbuf-notes*
+
+Previous author/maintainer
+
+palnart <palnart@gmail.com>
