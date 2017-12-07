@@ -1,7 +1,7 @@
-if exists('did_quickbuf') || &compatible  || version < 700
+if exists('did_quickbuf') || &compatible  || v:version < 703
     finish
 endif
-let g:did_quickbuf = "did_quickbuf"
+let g:did_quickbuf = 'did_quickbuf'
 let s:save_cpo = &cpoptions
 set compatible&vim
 
@@ -11,10 +11,12 @@ function! quickbuf#run()
 endfunction
 
 let s:action2cmd = {
-            \   'z': 'call <SID>switchbuf(#,"")', "!z": 'call <SID>switchbuf(#,"!")',
+            \   'z': 'call <SID>switchbuf(#,"")',
+            \  '!z': 'call <SID>switchbuf(#,"!")',
             \   'u': 'hid b #|let s:cursel = (s:cursel+1) % s:blen',
             \   's': 'sb #',
-            \   'd': 'call <SID>qbufdcmd(#,"")', "!d": 'call <SID>qbufdcmd(#,"!")',
+            \   'd': 'call <SID>qbufdcmd(#,"")',
+            \  '!d': 'call <SID>qbufdcmd(#,"!")',
             \   'w': 'bw #', '!w': 'bw! #',
             \   'l': 'let s:unlisted = 1 - s:unlisted',
             \   'c': 'call <SID>closewindow(#,"")',
