@@ -13,7 +13,7 @@ endfunction
 let s:action2cmd = {
             \   'z': 'call <SID>switchbuf(#,"")',
             \  '!z': 'call <SID>switchbuf(#,"!")',
-            \   'u': 'hid b #|let s:cursel = (s:cursel+1) % s:global.blen',
+            \   'u': 'hid b #|let s:global.cursel = (s:global.cursel+1) % s:global.blen',
             \   's': 'sb #',
             \   'd': 'call <SID>qbufdcmd(#,"")',
             \  '!d': 'call <SID>qbufdcmd(#,"!")',
@@ -22,10 +22,11 @@ let s:action2cmd = {
             \   'c': 'call <SID>closewindow(#,"")',
             \ }
 
+        " \   'buflist ' : [],
 let s:global = {
             \   'unlisted' : '',
-            \   'buflist ' : [],
             \   'blen'     : '',
+            \   'cursel'   : '',
             \ }
 
 function! quickbuf#get_global(...)
@@ -74,8 +75,8 @@ function! s:rebuild() abort
 endfunc
 
 function! quickbuf#sbrun() abort
-    if !exists('s:cursel') || (s:cursel >= s:global.blen) || (s:cursel < 0)
-        let s:cursel = s:global.blen-1
+    if !exists('s:global.cursel') || (s:global.cursel >= s:global.blen) || (s:global.cursel < 0)
+        let s:global.cursel = s:global.blen-1
     endif
 
     if s:global.blen < 1
@@ -84,7 +85,7 @@ function! quickbuf#sbrun() abort
         return
     endif
     for l:idx in range(s:global.blen)
-        if l:idx != s:cursel
+        if l:idx != s:global.cursel
             echo '  ' . s:global.buflist[l:idx]
         else
             echoh DiffText | echo '> ' . s:global.buflist[l:idx] | echoh None
@@ -108,12 +109,12 @@ function! quickbuf#sbrun() abort
         echoh None
     endif
     if l:pkey =~# 'j$'
-        let s:cursel = (s:cursel+1) % s:global.blen
+        let s:global.cursel = (s:global.cursel+1) % s:global.blen
     elseif l:pkey =~# 'k$'
-        if s:cursel == 0
-            let s:cursel = s:global.blen - 1
+        if s:global.cursel == 0
+            let s:global.cursel = s:global.blen - 1
         else
-            let s:cursel -= 1
+            let s:global.cursel -= 1
         endif
     elseif s:update_buf(l:pkey)
         call quickbuf#init(0)
@@ -140,7 +141,7 @@ function! quickbuf#init(onStart) " abort
         cmap <down> j
 
         call s:rebuild()
-        let s:cursel = match(s:global.buflist, '^\d*\*')
+        let s:global.cursel = match(s:global.buflist, '^\d*\*')
         call s:setcmdh(s:global.blen+1)
     else
         call s:setcmdh(1)
@@ -159,7 +160,7 @@ function! s:update_buf(cmd) abort
     if a:cmd !=# '' && a:cmd =~# '^ *\d*!\?\a\?$'
         let l:bufidx = str2nr(a:cmd) - 1
         if l:bufidx == -1
-            let l:bufidx = s:cursel
+            let l:bufidx = s:global.cursel
         endif
 
         let l:action = matchstr(a:cmd, '!\?\a\?$')
