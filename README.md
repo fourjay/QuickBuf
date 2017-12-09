@@ -1,7 +1,13 @@
 QuickBuf
 ========
 
-A buffer picker that runs inside the command line
+A buffer picker that runs inside the command line.
+This approach works roughly how one might expect a picker to work,
+presenting a list and allowing you to scroll up and down.
+
+This shouldn't replace a large set of open buffers, vim's native ``:b 
+[match_string]`` is a better approach is better if you know the buffer you 
+want.
 
 Forked from a fork :-)
 
