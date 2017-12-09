@@ -67,9 +67,10 @@ function! s:rebuild() abort
             endif
 
             call add(s:global.buflist, s:global.blen . l:active
-                        \ .fnamemodify(l:fname, ':t') . l:moreinfo
-                        \ .' <' . l:bufnum . '> '
-                        \ .fnamemodify( l:fname, ':h'))
+                        \     .fnamemodify(l:fname, ':t') . l:moreinfo
+                        \     .' <' . l:bufnum . '> '
+                        \     .fnamemodify( l:fname, ':h')
+                        \ )
         endif
     endfor
 
