@@ -5,6 +5,17 @@ A buffer picker that runs inside the command line
 
 Forked from a fork :-)
 
+Changes from Original
+=====================
+
+* ``:Ls`` command to shadow vim's native ``:ls`` buffer command
+
+* Bugfixes
+
+* ``<Plug>QuickBuf`` mapping rather then plugin assigned mapping
+
+* Plugin converted to autoload
+
 Original README
 ===============
 
