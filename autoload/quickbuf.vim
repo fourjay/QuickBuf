@@ -29,6 +29,7 @@ let s:global = {
             \   'cursel'   : '',
             \ }
 
+" Debug globals
 function! quickbuf#get_global(...)
     if a:0 == 0
         return s:global
@@ -43,7 +44,10 @@ function! s:rebuild() abort
     let s:global.blen = 0
 
     for l:theline in split(l:ls_result,"\n")
-        if s:global.unlisted && l:theline[3] ==# 'u' && (l:theline[6] !=# '-' || l:theline[5] !=# ' ')
+        if s:global.unlisted
+                    \ && l:theline[3] ==# 'u'
+                    \ && (l:theline[6] !=# '-'
+                    \ || l:theline[5] !=# ' ')
                     \ || !s:global.unlisted && l:theline[3] !=# 'u'
             if s:global.unlisted
                 let l:moreinfo = substitute(l:theline[5], '[ah]', ' [+]', '')
@@ -152,7 +156,9 @@ function! quickbuf#init(onStart) " abort
         cunmap <down>
         " execute 'hi Cursor guibg=' . s:cursorbg . " guifg=".((s:cursorfg == "") ? "NONE" : s:cursorfg)
         let &lazyredraw = s:orig_lazyredraw
+        redraw
     endif
+    redraw
 endfunc
 
 " return true to indicate termination
