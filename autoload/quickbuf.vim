@@ -143,6 +143,7 @@ function! quickbuf#init(onStart) " abort
         call s:rebuild()
         let s:global.cursel = match(s:global.buflist, '^\d*\*')
         call quickbuf#setcmdh(s:global.blen+1)
+        redraw
     else
         call quickbuf#setcmdh(1)
         for l:key in s:klist
