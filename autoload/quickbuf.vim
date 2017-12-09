@@ -116,7 +116,7 @@ function! quickbuf#sbrun() abort
         else
             let s:global.cursel -= 1
         endif
-    elseif s:update_buf(l:pkey)
+    elseif quickbuf#update_buf(l:pkey)
         call quickbuf#init(0)
         return
     endif
@@ -157,7 +157,7 @@ function! quickbuf#init(onStart) " abort
 endfunc
 
 " return true to indicate termination
-function! s:update_buf(cmd) abort
+function! quickbuf#update_buf(cmd) abort
     if a:cmd !=# '' && a:cmd =~# '^ *\d*!\?\a\?$'
         let l:bufidx = str2nr(a:cmd) - 1
         if l:bufidx == -1
