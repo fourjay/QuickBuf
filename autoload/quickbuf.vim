@@ -120,7 +120,7 @@ function! quickbuf#sbrun() abort
         call quickbuf#init(0)
         return
     endif
-    call s:setcmdh(s:global.blen+1)
+    call quickbuf#setcmdh(s:global.blen+1)
 endfunc
 
 let s:orig_lazyredraw = &lazyredraw
@@ -142,9 +142,9 @@ function! quickbuf#init(onStart) " abort
 
         call s:rebuild()
         let s:global.cursel = match(s:global.buflist, '^\d*\*')
-        call s:setcmdh(s:global.blen+1)
+        call quickbuf#setcmdh(s:global.blen+1)
     else
-        call s:setcmdh(1)
+        call quickbuf#setcmdh(1)
         for l:key in s:klist
             execute 'cunmap '.l:key
         endfor
@@ -185,7 +185,7 @@ function! s:update_buf(cmd) abort
     return index(s:klist, a:cmd[-1:]) == -1
 endfunc
 
-function! s:setcmdh(height) abort
+function! quickbuf#setcmdh(height) abort
     if a:height > &lines - winnr('$') * (&winminheight+1) - 1
         call quickbuf#init(0)
         echo "\r"|echoerr 'QBuf E1: No room to display buffer list'
