@@ -80,7 +80,9 @@ function! s:rebuild() abort
 endfunc
 
 function! quickbuf#sbrun() abort
-    if !exists('s:global.cursel') || (s:global.cursel >= s:global.blen) || (s:global.cursel < 0)
+    if !exists('s:global.cursel')
+                \ || (s:global.cursel >= s:global.blen)
+                \ || (s:global.cursel < 0)
         let s:global.cursel = s:global.blen-1
     endif
 
