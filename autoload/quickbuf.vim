@@ -3,7 +3,7 @@ if exists('did_quickbuf') || &compatible  || v:version < 703
 endif
 let g:did_quickbuf = 'did_quickbuf'
 let s:save_cpo = &cpoptions
-set compatible&vim
+set cpoptions&vim
 
 function! quickbuf#run()
     call quickbuf#init(1)
